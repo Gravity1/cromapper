@@ -1,12 +1,10 @@
 import React from 'react';
-// import Navbar from './Navbar';
 import Layers from './Layers';
 import MapBoxGl from './MapBoxGl';
 import Title from './Title';
 import './Navbar.css'
 import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'; import SearchBar from "material-ui-search-bar";
-
 import {
     BrowserRouter as
     Router,
