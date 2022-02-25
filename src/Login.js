@@ -100,8 +100,8 @@ function Login() {
 
         </div>
        
-      {/* {signUpDiv} */}
-      {fPassDiv}
+      {signUpDiv}
+      {/* {fPassDiv} */}
       </div>
     </div>)
 

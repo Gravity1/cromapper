@@ -92,3 +92,7 @@ p {
 .mapboxgl-map.mode-draw_line_string .mapboxgl-canvas-container.mapboxgl-interactive,
 .mapboxgl-map.mode-draw_polygon .mapboxgl-canvas-container.mapboxgl-interactive
 { cursor: crosshair; }
+
+.mapboxgl-ctrl-group .mapboxgl-ctrl{
+margin-top: 4em;
+}
