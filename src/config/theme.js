@@ -12,7 +12,7 @@ const lightTheme = createTheme({
     },
     divider: "#ffffff",
     background: {
-      default: "#fffff",
+      default: "#ffffff",
     },
     success: {
       main: "#4BDE97",

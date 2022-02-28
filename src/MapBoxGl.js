@@ -73,10 +73,10 @@ const draw = new MapboxDraw({
     <div className="MapBox_div">
     
       <div ref={mapContainer} className="map-container" />
-      <div className="calculation-box">
+      {/* <div className="calculation-box">
     <p>Click the map to draw a polygon.</p>
     <div id="calculated-area"></div>
-</div>
+</div> */}
 
     </div>
   );
