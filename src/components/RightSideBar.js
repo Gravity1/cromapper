@@ -22,21 +22,22 @@ const RightSideBar = () => {
       style={{
         position: "absolute",
         zIndex: "1000",
-        left: 20,
+        right: 0,
         top: 100,
         backgroundColor: palette.secondary.main,
         width: "20%",
         borderRadius: 10,
         display: "flex",
         justifyContent: "space-evenly",
-        height:"80vh"
+        height: "80vh",
+        opacity: 0.8,
       }}
     >
       <List
         sx={{
           flexDirection: "column",
           width: "100%",
-          pl:5
+          pl: 5,
         }}
       >
         <ListItem
