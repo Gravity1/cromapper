@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useTheme } from "@emotion/react";
 import { useFilePicker } from "use-file-picker";
 import {
@@ -21,8 +21,16 @@ import {
 } from "@mui/icons-material";
 import DataManagerTab from "./DataMagerTab";
 import { Box } from "@mui/system";
+import { useDispatch, useSelector } from "react-redux";
+import { saveFile } from "../actions/fileActions";
 
 const RightSideBar = () => {
+  const dispatch = useDispatch();
+
+  const fileSave = useSelector((state) => state.fileSave);
+
+  const { file } = fileSave;
+
   const { palette } = useTheme();
 
   const [open, setOpen] = React.useState(false);
@@ -37,10 +45,13 @@ const RightSideBar = () => {
     accept: ".kml, .csv, .tiff",
   });
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-  console.log(filesContent);
+  useEffect(() => {
+    if (filesContent) {
+      dispatch(saveFile(filesContent));
+    }
+  }, [filesContent]);
+
+ 
 
   return (
     <div

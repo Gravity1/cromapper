@@ -1,6 +1,6 @@
 import { SAVE_FILE } from "../constants/fileConstants";
 
-export const fileSave = (state = {}, action) => {
+export const fileSaveReducer = (state = {}, action) => {
   switch (action.type) {
     case SAVE_FILE:
       return {

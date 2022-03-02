@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ReactMapboxGl, { Feature, Layer, ScaleControl } from "react-mapbox-gl";
 import DrawControl from "react-mapbox-gl-draw";
 import "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css";
@@ -7,6 +7,7 @@ import { GeolocateControl } from "mapbox-gl";
 import { LayersOutlined } from "@mui/icons-material";
 import { useTheme } from "@emotion/react";
 import { Button, Menu, MenuItem, Tooltip } from "@mui/material";
+import { useSelector } from "react-redux";
 
 const Map = ReactMapboxGl({
   accessToken:
@@ -15,12 +16,15 @@ const Map = ReactMapboxGl({
 
 export default function MapBoxGl() {
   const onDrawCreate = ({ features }) => {
-    console.log(features);
+    console.log("features");
   };
 
   const onDrawUpdate = ({ features }) => {
-    console.log(features);
+    console.log("features");
   };
+  const fileSave = useSelector((state) => state.fileSave);
+
+  const { file } = fileSave;
 
   // const mapboxStyles;
 
