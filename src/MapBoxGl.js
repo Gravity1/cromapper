@@ -26,9 +26,6 @@ export default function MapBoxGl() {
 
   const { palette } = useTheme();
 
-  
-
-
   return (
     <>
       <LayersOutlined
@@ -47,12 +44,13 @@ export default function MapBoxGl() {
       </LayersOutlined>
 
       <Map
-        style="mapbox://styles/mapbox/satellite-v9"
+        style="mapbox://styles/mapbox/satellite-streets-v11"
         containerStyle={{
           height: "90vh",
           width: "100vw",
         }}
-        center={[0.1804, 40.7128]}
+        center={[36.7065, 0.6115]}
+        zoom={[15]}
       >
         <ZoomControl
           style={{
