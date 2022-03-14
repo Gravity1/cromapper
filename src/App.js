@@ -12,11 +12,12 @@ import { ThemeProvider } from "@emotion/react";
 import { lightTheme } from "./config/theme";
 
 function App() {
+
   return (
     <ThemeProvider theme={lightTheme}>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home />}></Route>
+          <Route path="*" element={<Home />}></Route>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/signup" element={<SignUp />}></Route>
           <Route path="/recovery" element={<ForgotPass />}></Route>
