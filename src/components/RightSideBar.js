@@ -29,14 +29,14 @@ const RightSideBar = () => {
         borderRadius: 10,
         display: "flex",
         justifyContent: "space-evenly",
-        height:"80vh"
+        height: "80vh",
       }}
     >
       <List
         sx={{
           flexDirection: "column",
           width: "100%",
-          pl:5
+          pl: 5,
         }}
       >
         <ListItem

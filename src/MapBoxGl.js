@@ -1,4 +1,3 @@
-
 import './MapBoxGl.css';
 import React, { useRef, useEffect, useState } from 'react';
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
@@ -18,7 +17,7 @@ const [zoom, setZoom] = useState(13);
 
 
 const draw = new MapboxDraw({
-  displayControlsDefault: true,
+  displayControlsDefault: false,
   // Select which mapbox-gl-draw control buttons to add to the map.
   controls: {
   polygon: true,

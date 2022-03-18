@@ -43,10 +43,11 @@ function auth() {
         () => {
           console.log("authenticateViaPopup fallback SUCCESSFUL");
           initialize();
-          return;
+          // return;
         },
         (e) => {
           console.log("authenticateViaPopup fallback FAILED", e);
+          return;
         }
       );
     },
@@ -89,12 +90,11 @@ function analyze() {
   console.log("afterimage");
   image.getMap({ min: 0, max: 1000 }, (map) => {
     console.log(map);
+    return;
   });
   
 }
 
-auth();
-// analyze();
 
 ReactDOM.render(
   <React.StrictMode>
@@ -102,6 +102,9 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById('root')
 );
+// auth();
+// analyze();
+
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
