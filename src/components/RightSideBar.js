@@ -6,6 +6,12 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  Box,
+  Popper,
+  Fade,
+  Paper,
+  Grid,
+  Typography,
 } from "@mui/material";
 import {
   CloudOutlined,
@@ -13,9 +19,19 @@ import {
   GrassOutlined,
   MapOutlined,
   SettingsOutlined,
-  StorageOutlined,
+  StorageOutlined,z
 } from "@mui/icons-material";
+
 const RightSideBar = () => {
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [open, setOpen] = React.useState(false);
+  const [placement, setPlacement] = React.useState();
+
+  const handleClick = (newPlacement) => (event) => {
+    setAnchorEl(event.currentTarget);
+    setOpen((prev) => placement !== newPlacement || !prev);
+    setPlacement(newPlacement);
+  };
   const { palette } = useTheme();
   return (
     <div
@@ -108,6 +124,7 @@ const RightSideBar = () => {
           />
         </ListItem>
         <ListItem
+          onClick={handleClick('right-start')}
           button
           sx={{
             p: 20,
@@ -127,6 +144,22 @@ const RightSideBar = () => {
             style={{ color: palette.primary.contrastText }}
           />
         </ListItem>
+        <Popper
+          open={open}
+          anchorEl={anchorEl}
+          placement={placement}
+          transition
+        >
+          {({ TransitionProps }) => (
+            <Fade {...TransitionProps} timeout={350}>
+              <Paper>
+                <Typography sx={{ p: 2 }}>
+                  View Existing
+                </Typography>
+              </Paper>
+            </Fade>
+          )}
+        </Popper>
         <ListItem
           button
           sx={{
