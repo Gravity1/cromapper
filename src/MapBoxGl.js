@@ -4,7 +4,6 @@ import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-load
 import MapboxDraw from "@mapbox/mapbox-gl-draw";
 import turf from "@turf/area";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 
 const style = {
@@ -12,11 +11,12 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  width: "min-content",
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
   p: 4,
+  borderRadius: "1.5em",
 };
 
 mapboxgl.accessToken =
@@ -26,6 +26,7 @@ function MapBoxGl() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const [acre, setAcre]=React.useState(0);
 
   function BasicModal() {
     return (
@@ -37,12 +38,29 @@ function MapBoxGl() {
           aria-describedby="modal-modal-description"
         >
           <Box sx={style}>
-            <Typography id="modal-modal-title" variant="h6" component="h2">
-              Text in a modal
-            </Typography>
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            </Typography>
+            <form>
+              <label>
+                Field name:
+                <input type="text" />
+              </label>
+              <label>
+                Crop planted:
+                <input type="text" />
+              </label>
+              <label>
+                Sowing date:
+                <input type="date" />
+              </label>
+              <label>
+                Harvest date:
+                <input type="date" />
+              </label>
+              <label>
+                Area:
+                <input type="number" value={acre}/>
+
+              </label>
+            </form>
           </Box>
         </Modal>
       </div>
@@ -102,8 +120,8 @@ function MapBoxGl() {
       // Restrict the area to 2 decimal points.
       const rounded_area = Math.round(area * 100) / 100;
       // convert to acres
-      const acres = rounded_area / 4046.86;
-      answer.innerHTML = `<p><strong>${rounded_area}</strong></p><p>acres</p>`;
+      setAcre(rounded_area / 4046.86)
+      answer.innerHTML = `<p><strong>${acre}</strong></p><p>acres</p>`;
     } else {
       answer.innerHTML = "";
       if (e.type !== "draw.delete") alert("Click the map to draw a polygon.");
@@ -112,7 +130,7 @@ function MapBoxGl() {
 
   return (
     <div className="MapBox_div">
-      <div ref={mapContainer} className="map-container" />
+      <div ref={mapContainer} className="map-container" id="map-container-id"/>
       <div className="calculation-box">
         <BasicModal />
         <p>Click the map to draw a polygon.</p>

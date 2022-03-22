@@ -1,5 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { useTheme } from "@emotion/react";
+import ReactWeather, { useOpenWeather } from "react-open-weather";
+import { useNavigate } from "react-router-dom";
+
 import {
   Container,
   List,
@@ -19,13 +22,15 @@ import {
   GrassOutlined,
   MapOutlined,
   SettingsOutlined,
-  StorageOutlined,z
+  StorageOutlined,
+  z,
 } from "@mui/icons-material";
 
 const RightSideBar = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [open, setOpen] = React.useState(false);
   const [placement, setPlacement] = React.useState();
+  let navigate = useNavigate();
 
   const handleClick = (newPlacement) => (event) => {
     setAnchorEl(event.currentTarget);
@@ -71,6 +76,9 @@ const RightSideBar = () => {
         </ListItem>
         <ListItem
           button
+          onClick={() => {
+            navigate("/weather");
+          }}
           sx={{
             p: 20,
           }}
@@ -124,7 +132,7 @@ const RightSideBar = () => {
           />
         </ListItem>
         <ListItem
-          onClick={handleClick('right-start')}
+          onClick={handleClick("right-start")}
           button
           sx={{
             p: 20,
@@ -153,9 +161,7 @@ const RightSideBar = () => {
           {({ TransitionProps }) => (
             <Fade {...TransitionProps} timeout={350}>
               <Paper>
-                <Typography sx={{ p: 2 }}>
-                  View Existing
-                </Typography>
+                <Typography sx={{ p: 2 }}>View Existing</Typography>
               </Paper>
             </Fade>
           )}
