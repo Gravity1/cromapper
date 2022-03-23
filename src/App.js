@@ -1,7 +1,4 @@
 import "./App.css";
-// import RightMenu from './RightMenu';
-// import MiniDrawer from './MiniDrawer';
-// import OpenStreetMap from './OpenStreetMap';
 import Login from "./Login";
 import SignUp from "./SignUp";
 import Home from "./Home";

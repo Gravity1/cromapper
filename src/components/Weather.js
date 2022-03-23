@@ -2,7 +2,6 @@ import ReactWeather, { useOpenWeather } from "react-open-weather";
 import React, { useState } from "react";
 
 function Weather() {
-  console.log("Weather starting");
   const customStyles = {
     fontFamily: "Helvetica, sans-serif",
     gradientStart: "#8BC34A",
@@ -24,7 +23,6 @@ function Weather() {
   };
 
   const WeatherDiv = () => {
-    console.log("Weather div spooling up");
     const [location, setLocation] = useState("Nyandarua");
     const { data, isLoading, errorMessage } = useOpenWeather({
       key: "761419d7cb3c8d29a63734d7cde99000",
