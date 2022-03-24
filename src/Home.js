@@ -1,5 +1,4 @@
 import React from "react";
-import Layers from "./Layers";
 import MapBoxGl from "./MapBoxGl";
 import Title from "./Title";
 import "./Navbar.css";
@@ -18,7 +17,6 @@ function Home() {
       <RightSideBar />
       <div className="MapView">
         {/* <Title /> */}
-        {/* <Layers /> */}
         <MapBoxGl />
         <div className="nav_div"></div>
         <div className="not_nav_div"></div>
