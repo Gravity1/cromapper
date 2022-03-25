@@ -4,7 +4,7 @@ import Title from "./Title";
 import "./Navbar.css";
 import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import SearchBar from "material-ui-search-bar";
+// import SearchBar from "material-ui-search-bar";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Login from "./Login";
 import SignUp from "./SignUp";
@@ -36,11 +36,7 @@ function Navbar() {
       <div className="rightside_nav">
         <ul>
           <li>
-            <SearchBar
-            // value={this.state.value}
-            // onChange={(newValue) => this.setState({ value: newValue })}
-            // onRequestSearch={() => doSomethingWith(this.state.value)}
-            />
+            
           </li>
           <li>
             <Link to="/login">Log out</Link>

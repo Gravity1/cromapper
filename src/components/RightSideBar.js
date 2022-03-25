@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { useTheme } from "@emotion/react";
+import { useFilePicker } from "use-file-picker";
 import { useNavigate } from "react-router-dom";
-
 import {
+  Button,
   Container,
   List,
   ListItem,
@@ -14,6 +15,8 @@ import {
   Paper,
   Grid,
   Typography,
+  Modal,
+  Typography,
 } from "@mui/material";
 import {
   CloudOutlined,
@@ -24,6 +27,10 @@ import {
   StorageOutlined,
   z,
 } from "@mui/icons-material";
+import DataManagerTab from "./DataMagerTab";
+import { Box } from "@mui/system";
+import { useDispatch, useSelector } from "react-redux";
+import { saveFile } from "../actions/fileActions";
 
 const RightSideBar = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -36,13 +43,40 @@ const RightSideBar = () => {
     setOpen((prev) => placement !== newPlacement || !prev);
     setPlacement(newPlacement);
   };
+  const dispatch = useDispatch();
+
+  const fileSave = useSelector((state) => state.fileSave);
+
+  const { file } = fileSave;
+
   const { palette } = useTheme();
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleOpen = () => setOpen(true);
+
+  const handleClose = () => setOpen(false);
+
+  //file selector
+  const [openFileSelector, { filesContent, loading }] = useFilePicker({
+    //accept kml csv tiff
+    accept: ".kml, .csv, .tiff",
+  });
+
+  useEffect(() => {
+    if (filesContent) {
+      dispatch(saveFile(filesContent));
+    }
+  }, [filesContent]);
+
+ 
+
   return (
     <div
       style={{
         position: "absolute",
         zIndex: "1000",
-        left: 20,
+        right: 0,
         top: 100,
         backgroundColor: palette.secondary.main,
         width: "20%",
@@ -50,8 +84,49 @@ const RightSideBar = () => {
         display: "flex",
         justifyContent: "space-evenly",
         height: "80vh",
+        opacity: 0.8,
       }}
     >
+      <div>
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box
+            sx={{
+              position: "absolute",
+              right: 280,
+              top: 200,
+              bgcolor: palette.background.default,
+              width: 200,
+              p: 1,
+              borderRadius: 2,
+            }}
+          >
+            <List
+              sx={{
+                flexDirection: "column",
+                pl: 1,
+              }}
+            >
+              <ListItem button>
+                <ListItemText
+                  primary="View my fields"
+                  color={palette.primary.main}
+                />
+              </ListItem>
+              <ListItem onClick={() => openFileSelector()} button>
+                <ListItemText
+                  primary="Import file"
+                  color={palette.primary.main}
+                />
+              </ListItem>
+            </List>
+          </Box>
+        </Modal>
+      </div>
       <List
         sx={{
           flexDirection: "column",
@@ -64,6 +139,7 @@ const RightSideBar = () => {
           sx={{
             p: 20,
           }}
+          onClick={handleOpen}
         >
           <ListItemIcon>
             <StorageOutlined style={{ color: palette.primary.contrastText }} />

@@ -4,6 +4,8 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'mapbox-gl/dist/mapbox-gl.css';
+import { Provider } from 'react-redux';
+import store from './store';
 
 
 // Load client library.
@@ -97,9 +99,10 @@ function analyze() {
 
 
 ReactDOM.render(
-  <React.StrictMode>
+
+  <Provider store={store}>
     <App />
-  </React.StrictMode>,
+  </Provider>,
   document.getElementById('root')
 );
 // auth();
