@@ -14,7 +14,6 @@ import {
   Fade,
   Paper,
   Grid,
-  Typography,
   Modal,
   Typography,
 } from "@mui/material";
@@ -28,13 +27,15 @@ import {
   z,
 } from "@mui/icons-material";
 import DataManagerTab from "./DataMagerTab";
-import { Box } from "@mui/system";
+// box has already been declared
+// import { Box } from "@mui/system";
 import { useDispatch, useSelector } from "react-redux";
 import { saveFile } from "../actions/fileActions";
 
 const RightSideBar = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [open, setOpen] = React.useState(false);
+  // cannot redeclare open areound line 54
+  // const [open, setOpen] = React.useState(false);
   const [placement, setPlacement] = React.useState();
   let navigate = useNavigate();
 
@@ -76,7 +77,6 @@ const RightSideBar = () => {
       style={{
         position: "absolute",
         zIndex: "1000",
-        right: 0,
         top: 100,
         backgroundColor: palette.secondary.main,
         width: "20%",

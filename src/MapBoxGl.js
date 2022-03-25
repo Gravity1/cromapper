@@ -1,22 +1,14 @@
-import React, { useEffect } from "react";
-import ReactMapboxGl, { Feature, Layer, ScaleControl } from "react-mapbox-gl";
-import DrawControl from "react-mapbox-gl-draw";
+import React, { useRef, useEffect, useState } from "react";
+import ReactMapboxGl, { Feature, Layer, ScaleControl ,ZoomControl,DrawControl} from "react-mapbox-gl";
 import "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css";
-import { ZoomControl } from "react-mapbox-gl";
 import { GeolocateControl } from "mapbox-gl";
+import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
+import MapboxDraw from "@mapbox/mapbox-gl-draw";
 import { LayersOutlined } from "@mui/icons-material";
 import { useTheme } from "@emotion/react";
 import { Button, Menu, MenuItem, Tooltip } from "@mui/material";
 import { useSelector } from "react-redux";
-
-const Map = ReactMapboxGl({
-  accessToken:
-    "pk.eyJ1IjoiZ3Jhdml0eTEiLCJhIjoiY2t6YTRmbXBwMDA3YzJ2cWZrZzljbDBnNCJ9.IbOTaJUNv9gVCkjmgdjkrQ",
-});
 import "./MapBoxGl.css";
-import React, { useRef, useEffect, useState } from "react";
-import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
-import MapboxDraw from "@mapbox/mapbox-gl-draw";
 import turf from "@turf/area";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
@@ -33,6 +25,8 @@ const style = {
   p: 4,
   borderRadius: "1.5em",
 };
+
+
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiZ3Jhdml0eTEiLCJhIjoiY2t6YTRmbXBwMDA3YzJ2cWZrZzljbDBnNCJ9.IbOTaJUNv9gVCkjmgdjkrQ";
@@ -103,10 +97,7 @@ function MapBoxGl() {
     defaultMode: "draw_polygon",
   });
 
-export default function MapBoxGl() {
-  const onDrawCreate = ({ features }) => {
-    console.log("features");
-  };
+
   useEffect(() => {
     if (map.current) return; // initialize map only once
     map.current = new mapboxgl.Map({
@@ -146,63 +137,109 @@ export default function MapBoxGl() {
       if (e.type !== "draw.delete") alert("Click the map to draw a polygon.");
     }
   }
-
-  const onDrawUpdate = ({ features }) => {
-    console.log("features");
-  };
-  const fileSave = useSelector((state) => state.fileSave);
-
-  const { file } = fileSave;
-
-  // const mapboxStyles;
-
-  const { palette } = useTheme();
-
-  return (
-    <>
-      <LayersOutlined
-        style={{
-          position: "absolute",
-          zIndex: "1000",
-          top: 300,
-          backgroundColor: palette.secondary.main,
-          color: palette.primary.contrastText,
-          padding: 10,
-          fontSize: 50,
-          cursor: "pointer",
-        }}
-      >
-        <Tooltip title="Change Map Style" style={{ position: "absolute" }} />
-      </LayersOutlined>
-
-      <Map
-        style="mapbox://styles/mapbox/satellite-streets-v11"
-        containerStyle={{
-          height: "90vh",
-          width: "100vw",
-        }}
-        center={[36.7065, 0.6115]}
-        zoom={[15]}
-      >
-        <ZoomControl
-          style={{
-            backgroundColor: palette.primary.main,
-          }}
-          position="bottom-left"
-        />
-        <ScaleControl />
-        <DrawControl onDrawCreate={onDrawCreate} onDrawUpdate={onDrawUpdate} />
-      </Map>
-    </>
+  return(
     <div className="MapBox_div">
-      <div ref={mapContainer} className="map-container" id="map-container-id"/>
-      <div className="calculation-box">
-        <BasicModal />
-        <p>Click the map to draw a polygon.</p>
-        <div id="calculated-area"></div>
-      </div>
-    </div>
-  );
-}
+         <div ref={mapContainer} className="map-container" id="map-container-id"/>
+         <div className="calculation-box">
+           <BasicModal />
+           <p>Click the map to draw a polygon.</p>
+           <div id="calculated-area"></div>
+         </div>
+       </div>
+   );}
+   
+   // my end
 
-export default MapBoxGl;
+   export default MapBoxGl;
+   
+
+
+////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////
+  // his fx
+
+//   const style = {
+//     position: "absolute",
+//     top: "50%",
+//     left: "50%",
+//     transform: "translate(-50%, -50%)",
+//     width: "min-content",
+//     bgcolor: "background.paper",
+//     border: "2px solid #000",
+//     boxShadow: 24,
+//     p: 4,
+//     borderRadius: "1.5em",
+//   };
+  
+  
+//   const Map= ReactMapboxGl({
+//     accessToken:
+//       "pk.eyJ1IjoiZ3Jhdml0eTEiLCJhIjoiY2t6YTRmbXBwMDA3YzJ2cWZrZzljbDBnNCJ9.IbOTaJUNv9gVCkjmgdjkrQ",
+//   });
+//   export default function MapBoxGl() {
+//     const onDrawCreate = ({ features }) => {
+//       console.log("features");
+//     };
+
+//   const onDrawUpdate = ({ features }) => {
+//     console.log("features");
+//   };
+//   const fileSave = useSelector((state) => state.fileSave);
+
+//   const { file } = fileSave;
+
+//   // const mapboxStyles;
+
+//   const { palette } = useTheme();
+
+//   // his return
+  
+//   return (
+//     <>
+//       <LayersOutlined
+//         style={{
+//           position: "absolute",
+//           zIndex: "1000",
+//           top: 300,
+//           backgroundColor: palette.secondary.main,
+//           color: palette.primary.contrastText,
+//           padding: 10,
+//           fontSize: 50,
+//           cursor: "pointer",
+//         }}
+//       >
+//         <Tooltip title="Change Map Style" style={{ position: "absolute" }} />
+//       </LayersOutlined>
+
+//       <Map
+//         style="mapbox://styles/mapbox/satellite-streets-v11"
+//         containerStyle={{
+//           height: "90vh",
+//           width: "100vw",
+//         }}
+//         center={[36.7065, 0.6115]}
+//         zoom={[15]}
+//       >
+//         <ZoomControl
+//           style={{
+//             backgroundColor: palette.primary.main,
+//           }}
+//           position="bottom-left"
+//         />
+//         <ScaleControl />
+//         <DrawControl onDrawCreate={onDrawCreate} onDrawUpdate={onDrawUpdate} />
+//       </Map>
+//     </>
+//   );
+// }
+////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// my return
