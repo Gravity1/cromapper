@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useTheme } from "@emotion/react";
-import ReactWeather, { useOpenWeather } from "react-open-weather";
 import { useNavigate } from "react-router-dom";
 
 import {
