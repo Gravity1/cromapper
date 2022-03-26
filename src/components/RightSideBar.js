@@ -10,7 +10,6 @@ import {
   ListItemIcon,
   ListItemText,
   Box,
-  Popper,
   Fade,
   Paper,
   Grid,
@@ -39,6 +38,8 @@ const RightSideBar = () => {
   const [placement, setPlacement] = React.useState();
   let navigate = useNavigate();
 
+  // mostly for popper but it appears after running once, is also triggered by modal
+
   const handleClick = (newPlacement) => (event) => {
     setAnchorEl(event.currentTarget);
     setOpen((prev) => placement !== newPlacement || !prev);
@@ -53,10 +54,13 @@ const RightSideBar = () => {
   const { palette } = useTheme();
 
   const [open, setOpen] = React.useState(false);
-
   const handleOpen = () => setOpen(true);
-
   const handleClose = () => setOpen(false);
+
+  const [openCollections, setOpenCollections] = React.useState(false);
+  const handleOpenCollections = () => setOpenCollections(true);
+  const handleCloseCollections = () => setOpenCollections(false);
+  // const handleOpenCollections = () => setOpen(true);
 
   //file selector
   const [openFileSelector, { filesContent, loading }] = useFilePicker({
@@ -70,8 +74,6 @@ const RightSideBar = () => {
     }
   }, [filesContent]);
 
- 
-
   return (
     <div
       style={{
@@ -79,7 +81,6 @@ const RightSideBar = () => {
         zIndex: "1000",
         top: 100,
         backgroundColor: palette.secondary.main,
-        width: "20%",
         borderRadius: 10,
         display: "flex",
         justifyContent: "space-evenly",
@@ -97,12 +98,13 @@ const RightSideBar = () => {
           <Box
             sx={{
               position: "absolute",
-              right: 280,
-              top: 200,
-              bgcolor: palette.background.default,
+              left: 225,
+              top: 135,
+              bgcolor: "rgb(139, 195, 74)",
               width: 200,
               p: 1,
               borderRadius: 2,
+              color:palette.background.default
             }}
           >
             <List
@@ -127,20 +129,72 @@ const RightSideBar = () => {
           </Box>
         </Modal>
       </div>
+      <div>
+        <Modal
+          open={openCollections}
+          onClose={handleCloseCollections}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box
+            sx={{
+              position: "absolute",
+              left: "225px",
+              top: "513px",
+              bgcolor: "rgb(139, 195, 74)",
+              width: 200,
+              p: 1,
+              borderRadius: 2,
+              opacity: 0.8,
+              color:palette.background.default
+            }}
+          >
+            <List
+              sx={{
+                flexDirection: "column",
+                pl: 1,
+              }}
+            >
+              <ListItem button>
+                <ListItemText
+                  primary="Create new"
+                  color={palette.primary.main}
+                />
+              </ListItem>
+
+              <ListItem button>
+                <ListItemText
+                  primary="View existing"
+                  color={palette.primary.main}
+                />
+              </ListItem>
+
+              <ListItem button>
+                <ListItemText primary="Drafts" color={palette.primary.main} />
+              </ListItem>
+
+              <ListItem button>
+                <ListItemText primary="Archived" color={palette.primary.main} />
+              </ListItem>
+
+              <ListItem button>
+                <ListItemText
+                  primary="Recently deleted"
+                  color={palette.primary.main}
+                />
+              </ListItem>
+            </List>
+          </Box>
+        </Modal>
+      </div>
       <List
         sx={{
           flexDirection: "column",
-          width: "100%",
+          width: "fitContent",
           pl: 5,
         }}
       >
-        <ListItem
-          button
-          sx={{
-            p: 20,
-          }}
-          onClick={handleOpen}
-        >
+        <ListItem button sx={{}} onClick={handleOpen}>
           <ListItemIcon>
             <StorageOutlined style={{ color: palette.primary.contrastText }} />
           </ListItemIcon>
@@ -154,9 +208,7 @@ const RightSideBar = () => {
           onClick={() => {
             navigate("/weather");
           }}
-          sx={{
-            p: 20,
-          }}
+          sx={{}}
         >
           <ListItemIcon>
             <CloudOutlined style={{ color: palette.primary.contrastText }} />
@@ -166,12 +218,7 @@ const RightSideBar = () => {
             style={{ color: palette.primary.contrastText }}
           />
         </ListItem>
-        <ListItem
-          button
-          sx={{
-            p: 20,
-          }}
-        >
+        <ListItem button sx={{}}>
           <ListItemIcon>
             <GrassOutlined
               sx={{
@@ -186,12 +233,7 @@ const RightSideBar = () => {
             style={{ color: palette.primary.contrastText }}
           />
         </ListItem>
-        <ListItem
-          button
-          sx={{
-            p: 20,
-          }}
-        >
+        <ListItem button sx={{}}>
           <ListItemIcon>
             <MapOutlined
               sx={{
@@ -206,13 +248,7 @@ const RightSideBar = () => {
             style={{ color: palette.primary.contrastText }}
           />
         </ListItem>
-        <ListItem
-          onClick={handleClick("right-start")}
-          button
-          sx={{
-            p: 20,
-          }}
-        >
+        <ListItem onClick={handleOpenCollections} button sx={{}}>
           <ListItemIcon>
             <CollectionsOutlined
               sx={{
@@ -227,26 +263,9 @@ const RightSideBar = () => {
             style={{ color: palette.primary.contrastText }}
           />
         </ListItem>
-        <Popper
-          open={open}
-          anchorEl={anchorEl}
-          placement={placement}
-          transition
-        >
-          {({ TransitionProps }) => (
-            <Fade {...TransitionProps} timeout={350}>
-              <Paper>
-                <Typography sx={{ p: 2 }}>View Existing</Typography>
-              </Paper>
-            </Fade>
-          )}
-        </Popper>
-        <ListItem
-          button
-          sx={{
-            p: 20,
-          }}
-        >
+        {/* popper was here lol */}
+
+        <ListItem button sx={{}}>
           <ListItemIcon>
             <SettingsOutlined
               sx={{
