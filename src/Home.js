@@ -4,6 +4,7 @@ import Title from "./Title";
 import "./Navbar.css";
 import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+// very problemattic with the dependency tree
 // import SearchBar from "material-ui-search-bar";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Login from "./Login";

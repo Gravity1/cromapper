@@ -30,6 +30,8 @@ import DataManagerTab from "./DataMagerTab";
 // import { Box } from "@mui/system";
 import { useDispatch, useSelector } from "react-redux";
 import { saveFile } from "../actions/fileActions";
+import ModalVideo from "react-modal-video";
+import "react-modal-video/scss/modal-video.scss";
 
 const RightSideBar = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -37,8 +39,6 @@ const RightSideBar = () => {
   // const [open, setOpen] = React.useState(false);
   const [placement, setPlacement] = React.useState();
   let navigate = useNavigate();
-
-  // mostly for popper but it appears after running once, is also triggered by modal
 
   const handleClick = (newPlacement) => (event) => {
     setAnchorEl(event.currentTarget);
@@ -62,11 +62,29 @@ const RightSideBar = () => {
   const handleCloseCollections = () => setOpenCollections(false);
   // const handleOpenCollections = () => setOpen(true);
 
+  const [openManuals, setOpenManuals] = React.useState(false);
+  const handleOpenManuals = () => setOpenManuals(true);
+  const handleCloseManuals = () => setOpenManuals(false);
+
+  const [ismanualModalVideoOpen, setmanualModalVideoOpen] =
+    React.useState(false);
   //file selector
   const [openFileSelector, { filesContent, loading }] = useFilePicker({
     //accept kml csv tiff
     accept: ".kml, .csv, .tiff",
   });
+
+  const [cropManualVideoId, setCropManualVideoId] = React.useState("");
+  function handleCropManual(videoId) {
+    setCropManualVideoId(videoId);
+    console.log(
+      "video id passed should be UBnX5TNoZjA. compare :",
+      videoId,
+      "const cropManualVideoId to change is ",
+      cropManualVideoId,
+      " there is a problem if they do not match up"
+    );
+  }
 
   useEffect(() => {
     if (filesContent) {
@@ -104,7 +122,7 @@ const RightSideBar = () => {
               width: 200,
               p: 1,
               borderRadius: 2,
-              color:palette.background.default
+              color: palette.background.default,
             }}
           >
             <List
@@ -129,6 +147,7 @@ const RightSideBar = () => {
           </Box>
         </Modal>
       </div>
+      {/* FOR COLLECTIONS */}
       <div>
         <Modal
           open={openCollections}
@@ -146,7 +165,7 @@ const RightSideBar = () => {
               p: 1,
               borderRadius: 2,
               opacity: 0.8,
-              color:palette.background.default
+              color: palette.background.default,
             }}
           >
             <List
@@ -187,6 +206,108 @@ const RightSideBar = () => {
           </Box>
         </Modal>
       </div>
+      {/* FOR CROP MANUALS */}
+      <div>
+        <Modal
+          open={openManuals}
+          onClose={handleCloseManuals}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box
+            sx={{
+              position: "absolute",
+              left: 225,
+              top: 330,
+              bgcolor: "rgb(139, 195, 74)",
+              width: 200,
+              p: 1,
+              borderRadius: 2,
+              color: palette.background.default,
+            }}
+          >
+            <List
+              sx={{
+                flexDirection: "column",
+                pl: 1,
+              }}
+            >
+              <ListItem
+                onClick={() => {
+                  handleCropManual("UBnX5TNoZjA");
+                  setmanualModalVideoOpen(true);
+                }}
+                button
+              >
+                <ListItemText primary="Peas" color={palette.primary.main} />
+              </ListItem>
+
+              <ListItem
+                onClick={() => {
+                  handleCropManual("k5knhlIE1_4");
+                  setmanualModalVideoOpen(true);
+                }}
+                button
+              >
+                <ListItemText primary="Cabbages" color={palette.primary.main} />
+              </ListItem>
+
+              <ListItem
+                onClick={() => {
+                  handleCropManual("7LxpmjOhaqs");
+                  setmanualModalVideoOpen(true);
+                }}
+                button
+              >
+                <ListItemText
+                  primary="Peas, potatoes, beans mixed"
+                  color={palette.primary.main}
+                />
+              </ListItem>
+              <ListItem
+                onClick={() => {
+                  handleCropManual("ly6zhFAEVqY");
+                  setmanualModalVideoOpen(true);
+                }}
+                button
+              >
+                <ListItemText
+                  primary="Tree tomatoes"
+                  color={palette.primary.main}
+                />
+              </ListItem>
+              <ListItem
+                onClick={() => {
+                  handleCropManual("YnIKxyctFVw");
+                  setmanualModalVideoOpen(true);
+                }}
+                button
+              >
+                <ListItemText primary="Carrots" color={palette.primary.main} />
+              </ListItem>
+              <ListItem
+                onClick={() => {
+                  handleCropManual("w2L4PPc4TV4");
+                  setmanualModalVideoOpen(true);
+                }}
+                button
+              >
+                <ListItemText primary="Dairy cattle" color={palette.primary.main} />
+              </ListItem>
+            </List>
+          </Box>
+        </Modal>
+      </div>
+      <div>
+        <ModalVideo
+          channel="youtube"
+          autoplay
+          controls
+          isOpen={ismanualModalVideoOpen}
+          videoId={cropManualVideoId}
+          onClose={() => setmanualModalVideoOpen(false)}
+        />
+      </div>
       <List
         sx={{
           flexDirection: "column",
@@ -218,7 +339,7 @@ const RightSideBar = () => {
             style={{ color: palette.primary.contrastText }}
           />
         </ListItem>
-        <ListItem button sx={{}}>
+        <ListItem button sx={{}} onClick={handleOpenManuals}>
           <ListItemIcon>
             <GrassOutlined
               sx={{
