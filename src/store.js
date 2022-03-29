@@ -8,6 +8,11 @@ import {
   fieldUpdateReducer,
 } from "./reducers/fieldReducers";
 import { fileSaveReducer } from "./reducers/fileReducers";
+import {
+  userLoginReducer,
+  userRegisterReducer,
+  userUpdateReducer,
+} from "./reducers/userReducers";
 
 const reducer = combineReducers({
   fileSave: fileSaveReducer,
@@ -16,9 +21,20 @@ const reducer = combineReducers({
   fieldGet: fieldsGetReducer,
   fieldDelete: fieldDeleteReducer,
   fieldUpdate: fieldUpdateReducer,
+  userLogin: userLoginReducer,
+  userRegister: userRegisterReducer,
+  userUpdate: userUpdateReducer,
+  // userDelete: userDeleteReducer,
 });
+const userInfoFromStorage = localStorage.getItem("userInfo")
+  ? JSON.parse(localStorage.getItem("userInfo"))
+  : null;
 
-const initialState = {};
+const initialState = {
+  userLogin: {
+    userInfo: userInfoFromStorage,
+  },
+};
 
 const middleware = [thunk];
 
