@@ -54,7 +54,7 @@ export const logout = () => (dispatch) => {
 };
 
 export const register =
-  (name, email, password, phoneNumber, role) => async (dispatch) => {
+  (name, email, password, idNumber, phoneNumber) => async (dispatch) => {
     try {
       dispatch({
         type: USER_CREATE_REQUEST,
@@ -66,7 +66,7 @@ export const register =
       };
       const { data } = await axios.post(
         `${url}/users`,
-        { name, email, password, role, phoneNumber },
+        { name, email, password, idNumber, phoneNumber },
         config
       );
       dispatch({
@@ -88,7 +88,6 @@ export const register =
       });
     }
   };
-
 export const getUserDetails = (id) => async (dispatch, getState) => {
   try {
     dispatch({

@@ -15,11 +15,11 @@ function App() {
       <CssBaseline />
       <BrowserRouter>
         <Routes>
-          <Route path="*" element={<Home />}></Route>
-          <Route path="/login" element={<Login />}></Route>
+          <Route path="/" element={<Login />}></Route>
           <Route path="/signup" element={<SignUp />}></Route>
           <Route path="/recovery" element={<ForgotPass />}></Route>
           <Route path="/weather" element={<Weather />}></Route>
+          <Route path="/home" element={<Home />}></Route>
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

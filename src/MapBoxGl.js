@@ -165,7 +165,7 @@ function MapBoxGl() {
       <Map
         style="mapbox://styles/mapbox/satellite-streets-v11"
         containerStyle={{
-          height: "90vh",
+          height: "92vh",
           width: "100vw",
         }}
         center={
