@@ -101,9 +101,10 @@ const RightSideBar = () => {
         backgroundColor: palette.secondary.main,
         borderRadius: 10,
         display: "flex",
-        justifyContent: "space-evenly",
-        height: "80vh",
+        justifyContent: "space-between",
+        height: "fit-content",
         opacity: 0.8,
+        padding: 10,
       }}
     >
       <div>
@@ -292,7 +293,10 @@ const RightSideBar = () => {
                 }}
                 button
               >
-                <ListItemText primary="Dairy cattle" color={palette.primary.main} />
+                <ListItemText
+                  primary="Dairy cattle"
+                  color={palette.primary.main}
+                />
               </ListItem>
             </List>
           </Box>
@@ -312,10 +316,12 @@ const RightSideBar = () => {
         sx={{
           flexDirection: "column",
           width: "fitContent",
-          pl: 5,
+          height: "fitContent",
         }}
       >
-        <ListItem button sx={{}} onClick={handleOpen}>
+        <ListItem 
+        
+        button sx={{}} onClick={handleOpen}>
           <ListItemIcon>
             <StorageOutlined style={{ color: palette.primary.contrastText }} />
           </ListItemIcon>

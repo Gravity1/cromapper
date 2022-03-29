@@ -7,22 +7,26 @@ import Weather from "./components/Weather";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import { ThemeProvider } from "@emotion/react";
 import { lightTheme } from "./config/theme";
-import { CssBaseline } from "@mui/material";
-
+import { Container, CssBaseline, Grid } from "@mui/material";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function App() {
   return (
-    <ThemeProvider theme={lightTheme}>
-      <CssBaseline />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Login />}></Route>
-          <Route path="/signup" element={<SignUp />}></Route>
-          <Route path="/recovery" element={<ForgotPass />}></Route>
-          <Route path="/weather" element={<Weather />}></Route>
-          <Route path="/home" element={<Home />}></Route>
-        </Routes>
-      </BrowserRouter>
-    </ThemeProvider>
+    <Grid container>
+      <ThemeProvider theme={lightTheme}>
+        <CssBaseline />
+        <ToastContainer />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Login />}></Route>
+            <Route path="/signup" element={<SignUp />}></Route>
+            <Route path="/recovery" element={<ForgotPass />}></Route>
+            <Route path="/weather" element={<Weather />}></Route>
+            <Route path="/home" element={<Home />}></Route>
+          </Routes>
+        </BrowserRouter>
+      </ThemeProvider>
+    </Grid>
   );
 }
 
