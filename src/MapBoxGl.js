@@ -11,19 +11,22 @@ import { useSelector } from "react-redux";
 import "./MapBoxGl.css";
 import turf from "@turf/area";
 import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
 import DrawControl from "react-mapbox-gl-draw";
 import * as Yup from "yup";
 import useLocation from "./hooks/useLocation";
+import { Button, Container, Grid, Typography, Modal } from "@mui/material";
+import Form from "./components/form/Form";
+import InputComponent from "./components/form/InputComponent";
+import { CustomDropDown } from "./components/form/CustomDropDown";
+import { crops } from "./data/data";
+import CustomDatePicker from "./components/form/CustomDatePicker";
+import SubmitButton from "./components/form/SubmitButton";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
   crop: Yup.string().required("Crop is required"),
   sowingDate: Yup.string().required("Sowing date is required"),
   harvestDate: Yup.string().required("Harvest date is required"),
-  area: Yup.string().required("Area is required"),
-  acres: Yup.string().required("Acres is required"),
-  center: Yup.string().required("Center is required"),
 });
 
 const Map = ReactMapboxGl({
@@ -63,10 +66,102 @@ function MapBoxGl() {
 
   const { palette } = useTheme();
 
-  // his return
+  //submit form
+  const handleSubmit = (values) => {
+    console.log(values);
+  };
 
   return (
     <>
+      <Container fluid>
+        <Modal
+          open={open}
+          // onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: "max-content",
+              bgcolor: "background.paper",
+              border: "2px solid #000",
+              boxShadow: 24,
+              p: 4,
+              borderRadius: "1.5em",
+              width: "50%",
+              height: "max-content",
+            }}
+          >
+            <>
+              <Typography component={"h1"} variant="h5">
+                Enter field details
+              </Typography>
+
+              <Grid container>
+                <Form
+                  initialValues={{
+                    name: "",
+                    crop: "",
+                    sowingDate: "",
+                    harvestDate: "",
+                  }}
+                  validationSchema={validationSchema}
+                  onSubmit={handleSubmit}
+                >
+                  <Grid item xs={12}>
+                    <InputComponent label={"name"} type="text" />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <CustomDropDown
+                      style={{
+                        flexDiretion: "row",
+                      }}
+                      item={crops}
+                      name="crop"
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <CustomDatePicker label="sowingDate" />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <CustomDatePicker label="harvestDate" />
+                  </Grid>
+                  <Grid
+                    item
+                    xs={12}
+                    justifyContent="center"
+                    alignContent={"center"}
+                  >
+                    <SubmitButton
+                      style={{
+                        marginTop: "10px",
+                      }}
+                      title={"Submit"}
+                    />
+                  </Grid>
+                </Form>
+
+                <Button
+                  color="danger"
+                  variant="contained"
+                  onClick={() => {
+                    handleClose();
+                  }}
+                  style={{
+                    margin: "auto",
+                  }}
+                >
+                  Close
+                </Button>
+              </Grid>
+            </>
+          </Box>
+        </Modal>
+      </Container>
       <Map
         style="mapbox://styles/mapbox/satellite-streets-v11"
         containerStyle={{
@@ -78,7 +173,7 @@ function MapBoxGl() {
             ? [loc.latitude, loc.longitude]
             : [36.7065, 0.6115]
         }
-        zoom={[15]}
+        zoom={[20]}
       >
         <div>
           <ZoomControl
@@ -96,40 +191,6 @@ function MapBoxGl() {
           />
         </div>
       </Map>
-
-      <div>
-        <Modal
-          open={open}
-          // onClose={handleClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Box>
-            <form>
-              <label>
-                Field name:
-                <input type="text" />
-              </label>
-              <label>
-                Crop planted:
-                <input type="text" />
-              </label>
-              <label>
-                Sowing date:
-                <input type="date" />
-              </label>
-              <label>
-                Harvest date:
-                <input type="date" />
-              </label>
-              <label>
-                Area:
-                <input type="number" value={acre} />
-              </label>
-            </form>
-          </Box>
-        </Modal>
-      </div>
     </>
   );
 }

@@ -19,8 +19,7 @@ function Home() {
       <div className="MapView">
         {/* <Title /> */}
         <MapBoxGl />
-        <div className="nav_div"></div>
-        <div className="not_nav_div"></div>
+       
       </div>
     </div>
   );

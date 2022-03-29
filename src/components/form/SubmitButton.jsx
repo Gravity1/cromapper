@@ -2,11 +2,12 @@ import { Button, FormControl } from "@mui/material";
 import { useFormikContext } from "formik";
 import React from "react";
 
-const SubmitButton = ({ title }) => {
+const SubmitButton = ({ title,...otherProps }) => {
   const { handleSubmit } = useFormikContext();
   return (
     <FormControl>
       <Button
+      {...otherProps}
         size="large"
         onClick={handleSubmit}
         variant="contained"

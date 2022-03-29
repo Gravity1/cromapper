@@ -7,10 +7,12 @@ import Weather from "./components/Weather";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import { ThemeProvider } from "@emotion/react";
 import { lightTheme } from "./config/theme";
+import { CssBaseline } from "@mui/material";
 
 function App() {
   return (
     <ThemeProvider theme={lightTheme}>
+      <CssBaseline />
       <BrowserRouter>
         <Routes>
           <Route path="*" element={<Home />}></Route>
