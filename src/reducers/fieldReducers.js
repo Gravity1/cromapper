@@ -13,22 +13,21 @@ import {
   GET_FIELDS_SUCCESS,
   GET_FIELD_REQUEST,
   GET_FIELD_SUCCESS,
-  SAVE_FIELD,
   UPDATE_FIELD_FAIL,
   UPDATE_FIELD_REQUEST,
   UPDATE_FIELD_RESET,
   UPDATE_FIELD_SUCCESS,
 } from "../constants/fieldConstants";
 
-export const addFieldReducer = (state = { field: [] }, action) => {
-  switch (action.type) {
-    case SAVE_FIELD:
-      return { loading: false, field: action.payload };
+// export const addFieldReducer = (state = { field: [] }, action) => {
+//   switch (action.type) {
+//     case SAVE_FIELD:
+//       return { loading: false, field: action.payload };
 
-    default:
-      return state;
-  }
-};
+//     default:
+//       return state;
+//   }
+// };
 
 export const fieldCreateReducer = (state = {}, action) => {
   switch (action.type) {

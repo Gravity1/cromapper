@@ -146,7 +146,7 @@ function MapBoxGl() {
                 </Form>
 
                 <Button
-                  color="danger"
+                  color="info"
                   variant="contained"
                   onClick={() => {
                     handleClose();
