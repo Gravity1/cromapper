@@ -91,9 +91,7 @@ const Navbar = () => {
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}
                 >
-                  <MenuItem onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">Dashboard</Typography>
-                  </MenuItem>
+                 
                   <MenuItem onClick={handleCloseUserMenu}>
                     <Typography textAlign="center">Account</Typography>
                   </MenuItem>

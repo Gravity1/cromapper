@@ -34,7 +34,7 @@ const Login = () => {
   const { loading, success, error, userInfo } = userLogin;
 
   if (userInfo) {
-    navigate("/dashboard", { replace: true });
+    navigate("/home", { replace: true });
     toast(`Logged in as ${userInfo.name}`);
   }
 

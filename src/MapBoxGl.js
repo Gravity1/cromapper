@@ -2,12 +2,14 @@ import React, { useRef, useEffect, useState } from "react";
 import ReactMapboxGl, {
   Feature,
   Layer,
+  RotationControl,
   ScaleControl,
   ZoomControl,
 } from "react-mapbox-gl";
+import * as geolib from "geolib";
 import "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css";
 import { useTheme } from "@emotion/react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "./MapBoxGl.css";
 import turf from "@turf/area";
 import Box from "@mui/material/Box";
@@ -21,6 +23,10 @@ import { CustomDropDown } from "./components/form/CustomDropDown";
 import { crops } from "./data/data";
 import CustomDatePicker from "./components/form/CustomDatePicker";
 import SubmitButton from "./components/form/SubmitButton";
+import ee from "@google/earthengine";
+import { CREATE_FIELD_RESET } from "./constants/fieldConstants";
+import { toast } from "react-toastify";
+import { createField } from "./actions/fieldActions";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
@@ -36,11 +42,12 @@ const Map = ReactMapboxGl({
 
 function MapBoxGl() {
   const [open, setOpen] = useState(false);
-  const [acre, setAcre] = useState(0);
+  // const [acre, setAcre] = useState(0);
+  const [poly, setPoly] = useState(null);
+  const [polygon, setPolygon] = useState(null);
 
   const loc = useLocation();
 
-  console.log(loc);
   const handleClose = () => {
     if (
       window.confirm("Are you sure you want to close?All data will be lost")
@@ -50,10 +57,23 @@ function MapBoxGl() {
   };
 
   const onDrawCreate = ({ features }) => {
-    console.log(features);
-    setAcre(turf(features[0].geometry).area);
+    console.log(features[0].geometry.coordinates);
+    const area = geolib.getAreaOfPolygon(features[0].geometry.coordinates);
+    setPoly(features[0].geometry.coordinates[0]);
+    setPolygon(features);
+
     setOpen(true);
   };
+  let acre;
+  let center;
+
+  if (poly && poly.length > 0) {
+    const area = geolib.getAreaOfPolygon(poly);
+    acre = area / 4046.86;
+    center = geolib.getCenter(poly);
+  }
+  console.log(acre, "acre");
+  console.log(center, "center");
 
   const onDrawUpdate = ({ features }) => {
     console.log("features");
@@ -66,9 +86,44 @@ function MapBoxGl() {
 
   const { palette } = useTheme();
 
+  useEffect(() => {
+    if (poly && poly.length >= 3) {
+      const area = geolib.getAreaOfPolygon(poly);
+      const acre = geolib.convertArea(area, "a");
+    }
+  }, [poly]);
+
+  const fieldCreate = useSelector((state) => state.fieldCreate);
+  const { loading, success, error } = fieldCreate;
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (success) {
+      setOpen(false);
+
+      dispatch({
+        type: CREATE_FIELD_RESET,
+      });
+      toast("Field created successfully", {
+        type: "success",
+      });
+    }
+  }, [success, dispatch]);
+
   //submit form
-  const handleSubmit = (values) => {
-    console.log(values);
+  const handleSubmit = ({ name, crop, sowingDate, harvestDate }) => {
+    dispatch(
+      createField({
+        name,
+        crop,
+        sowingDate,
+        harvestDate,
+        area: polygon,
+        acres: acre,
+        center,
+      })
+    );
   };
 
   return (
@@ -87,12 +142,9 @@ function MapBoxGl() {
               left: "50%",
               transform: "translate(-50%, -50%)",
               width: "max-content",
-              bgcolor: "background.paper",
-              border: "2px solid #000",
-              boxShadow: 24,
+              bgcolor: palette.secondary.main,
               p: 4,
               borderRadius: "1.5em",
-              width: "50%",
               height: "max-content",
             }}
           >
@@ -169,11 +221,11 @@ function MapBoxGl() {
           width: "100vw",
         }}
         center={
-          loc && loc.latitude && loc.longitude
-            ? [loc.latitude, loc.longitude]
-            : [36.7065, 0.6115]
+          // loc && loc.latitude && loc.longitude
+          //   ? [loc.latitude, loc.longitude]
+          //   : [36.7065, 0.6115]
+          [36.7065, 0.6115]
         }
-        zoom={[20]}
       >
         <div>
           <ZoomControl
@@ -189,6 +241,7 @@ function MapBoxGl() {
             onDrawCreate={onDrawCreate}
             onDrawUpdate={onDrawUpdate}
           />
+          <RotationControl position="bottom-left" />
         </div>
       </Map>
     </>

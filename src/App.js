@@ -23,6 +23,7 @@ function App() {
             <Route path="/recovery" element={<ForgotPass />}></Route>
             <Route path="/weather" element={<Weather />}></Route>
             <Route path="/home" element={<Home />}></Route>
+            <Route path="*" element={<Home />}></Route>
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
