@@ -1,5 +1,11 @@
 import React, { useRef, useEffect, useState } from "react";
-import ReactMapboxGl, { Feature, Layer, ScaleControl ,ZoomControl,DrawControl} from "react-mapbox-gl";
+import ReactMapboxGl, {
+  Feature,
+  Layer,
+  ScaleControl,
+  ZoomControl,
+  DrawControl,
+} from "react-mapbox-gl";
 import "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css";
 import { GeolocateControl } from "mapbox-gl";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
@@ -12,6 +18,7 @@ import "./MapBoxGl.css";
 import turf from "@turf/area";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
+import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 
 const style = {
   position: "absolute",
@@ -26,8 +33,6 @@ const style = {
   borderRadius: "1.5em",
 };
 
-
-
 mapboxgl.accessToken =
   "pk.eyJ1IjoiZ3Jhdml0eTEiLCJhIjoiY2t6YTRmbXBwMDA3YzJ2cWZrZzljbDBnNCJ9.IbOTaJUNv9gVCkjmgdjkrQ";
 
@@ -35,7 +40,7 @@ function MapBoxGl() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const [acre, setAcre]=React.useState(0);
+  const [acre, setAcre] = React.useState(0);
 
   function BasicModal() {
     return (
@@ -66,8 +71,7 @@ function MapBoxGl() {
               </label>
               <label>
                 Area:
-                <input type="number" value={acre}/>
-
+                <input type="number" value={acre} />
               </label>
             </form>
           </Box>
@@ -97,7 +101,6 @@ function MapBoxGl() {
     defaultMode: "draw_polygon",
   });
 
-
   useEffect(() => {
     if (map.current) return; // initialize map only once
     map.current = new mapboxgl.Map({
@@ -109,7 +112,27 @@ function MapBoxGl() {
       logoPosition: "bottom-right",
     });
 
+    map.current.addControl(
+      new MapboxGeocoder({
+        accessToken: mapboxgl.accessToken,
+        mapboxgl: mapboxgl,
+      }),
+      "bottom-right"
+    );
+
     map.current.addControl(draw, "bottom-right");
+    map.current.addControl(
+      new mapboxgl.GeolocateControl({
+        positionOptions: {
+          enableHighAccuracy: true,
+        },
+        // When active the map will receive updates to the device's location as it changes.
+        trackUserLocation: true,
+        // Draw an arrow next to the location dot to indicate which direction the device is heading.
+        showUserHeading: true,
+      }),
+      "bottom-right"
+    );
 
     map.current.on("draw.create", updateArea);
     map.current.on("draw.delete", updateArea);
@@ -130,36 +153,41 @@ function MapBoxGl() {
       // Restrict the area to 2 decimal points.
       const rounded_area = Math.round(area * 100) / 100;
       // convert to acres
-      setAcre(rounded_area / 4046.86)
+      setAcre(rounded_area / 4046.86);
       answer.innerHTML = `<p><strong>${acre}</strong></p><p>acres</p>`;
     } else {
       answer.innerHTML = "";
       if (e.type !== "draw.delete") alert("Click the map to draw a polygon.");
     }
   }
-  return(
+  return (
     <div className="MapBox_div">
-         <div ref={mapContainer} className="map-container" id="map-container-id"/>
-         <div className="calculation-box">
-           <BasicModal />
-           <p>Click the map to draw a polygon.</p>
-           <div id="calculated-area"></div>
-         </div>
-       </div>
-   );}
-   
-   // my end
+      <div ref={mapContainer} className="map-container" id="map-container-id" style={
+        {
+          
+        }
+      }/>
+      <div className="calculation-box" style={{
+          left:"50%"
+        }}>
+        <BasicModal />
+        <p>Click the map to draw a polygon.</p>
+        <div id="calculated-area"></div>
+      </div>
+    </div>
+  );
+}
 
-   export default MapBoxGl;
-   
+// my end
 
+export default MapBoxGl;
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////
-  // his fx
+// his fx
 
 //   const style = {
 //     position: "absolute",
@@ -173,8 +201,7 @@ function MapBoxGl() {
 //     p: 4,
 //     borderRadius: "1.5em",
 //   };
-  
-  
+
 //   const Map= ReactMapboxGl({
 //     accessToken:
 //       "pk.eyJ1IjoiZ3Jhdml0eTEiLCJhIjoiY2t6YTRmbXBwMDA3YzJ2cWZrZzljbDBnNCJ9.IbOTaJUNv9gVCkjmgdjkrQ",
@@ -196,7 +223,7 @@ function MapBoxGl() {
 //   const { palette } = useTheme();
 
 //   // his return
-  
+
 //   return (
 //     <>
 //       <LayersOutlined
@@ -240,6 +267,5 @@ function MapBoxGl() {
 ////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////
-
 
 // my return

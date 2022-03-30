@@ -36,9 +36,7 @@ function Navbar() {
       </div>
       <div className="rightside_nav">
         <ul>
-          <li>
-            
-          </li>
+          <li></li>
           <li>
             <Link to="/login">Log out</Link>
           </li>
