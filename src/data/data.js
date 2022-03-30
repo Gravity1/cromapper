@@ -106,3 +106,47 @@ export const state = [
     value: "normal",
   },
 ];
+
+export const indeces = [
+  {
+    label: "NDVI-S2",
+    value: "NDVI-S2",
+  },
+  {
+    label: "NDVI-L8",
+    value: "NDVI-L8",
+  },
+  {
+    label: "MSAVI-L8",
+    value: "MSAVI-L8",
+  },
+  {
+    label: "MSAVI-L8",
+    value: "MSAVI-L8",
+  },
+  {
+    label: "NDRE-S2",
+    value: "NDRE-S2",
+  },
+  {
+    label: "NDRE-L8",
+    value: "NDRE-L8",
+  },
+  {
+    label: "NDRE-S2",
+    value: "NDRE-S2",
+  },
+
+  {
+    label: "RECI-L8",
+    value: "RECI-L8",
+  },
+  {
+    label: "NDMI-L8",
+    value: "NDMI-L8",
+  },
+  {
+    label: "NDWI-s2",
+    value: "NDWI-s2",
+  },
+];

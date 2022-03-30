@@ -10,6 +10,9 @@ import {
   GET_FIELDS_FAIL,
   GET_FIELDS_REQUEST,
   GET_FIELDS_SUCCESS,
+  GET_FIELD_FAIL,
+  GET_FIELD_REQUEST,
+  GET_FIELD_SUCCESS,
   SAVE_FIELD,
 } from "../constants/fieldConstants";
 import { logout } from "./userActions";
@@ -106,3 +109,30 @@ export const deleteField = (id) => async (dispatch, getState) => {
     });
   }
 };
+
+export const getField = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: GET_FIELD_REQUEST });
+    const {
+      userLogin: { userInfo },
+    } = getState();
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+    const { data } = await axios.get(`${url}/fields/${id}`, config);
+    dispatch({
+      type: GET_FIELD_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_FIELD_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+}

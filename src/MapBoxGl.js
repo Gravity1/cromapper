@@ -27,7 +27,8 @@ import SubmitButton from "./components/form/SubmitButton";
 import ee from "@google/earthengine";
 import { CREATE_FIELD_RESET } from "./constants/fieldConstants";
 import { toast } from "react-toastify";
-import { createField } from "./actions/fieldActions";
+import { createField, getFields } from "./actions/fieldActions";
+import { GeolocateControl } from "react-map-gl";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
@@ -96,6 +97,7 @@ function MapBoxGl() {
 
   const fieldCreate = useSelector((state) => state.fieldCreate);
   const { loading, success, error } = fieldCreate;
+  const map = useRef(null);
 
   const dispatch = useDispatch();
 
@@ -109,6 +111,7 @@ function MapBoxGl() {
       toast("Field created successfully", {
         type: "success",
       });
+      dispatch(getFields());
     }
   }, [success, dispatch]);
 
@@ -221,6 +224,7 @@ function MapBoxGl() {
           height: "90vh",
           width: "100vw",
         }}
+        ref={map}
         center={
           // loc && loc.latitude && loc.longitude
           //   ? [loc.latitude, loc.longitude]
@@ -228,13 +232,11 @@ function MapBoxGl() {
           [36.7065, 0.6115]
         }
       >
-        <Image 
-        id="mike"
-        url="https://earthengine.googleapis.com/v1alpha/projects/earthengine-legacy/thumbnails/d9fb3a65fe42841d18ae06f945f4e50c-17ac6cfd89ec15941cddb68b3efb8169:getPixels"
-
-        
+        <Image
+          id="mike"
+          url="https://earthengine.googleapis.com/v1alpha/projects/earthengine-legacy/thumbnails/d9fb3a65fe42841d18ae06f945f4e50c-17ac6cfd89ec15941cddb68b3efb8169:getPixels"
         />
-        
+
         <div>
           <ZoomControl
             style={{
@@ -248,6 +250,10 @@ function MapBoxGl() {
             position="top-right"
             onDrawCreate={onDrawCreate}
             onDrawUpdate={onDrawUpdate}
+            controls={{
+              combine_features: false,
+              uncombine_features: false,
+            }}
           />
           <RotationControl position="bottom-left" />
         </div>

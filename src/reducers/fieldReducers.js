@@ -11,7 +11,9 @@ import {
   GET_FIELDS_REQUEST,
   GET_FIELDS_RESET,
   GET_FIELDS_SUCCESS,
+  GET_FIELD_FAIL,
   GET_FIELD_REQUEST,
+  GET_FIELD_RESET,
   GET_FIELD_SUCCESS,
   UPDATE_FIELD_FAIL,
   UPDATE_FIELD_REQUEST,
@@ -122,6 +124,30 @@ export const fieldUpdateReducer = (state = {}, action) => {
         error: action.payload,
       };
     case UPDATE_FIELD_RESET:
+      return {};
+    default:
+      return state;
+  }
+};
+
+export const fieldGetReducer = (state = {}, action) => {
+  switch (action.type) {
+    case GET_FIELD_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case GET_FIELD_SUCCESS:
+      return {
+        loading: false,
+        field: action.payload,
+      };
+    case GET_FIELD_FAIL:
+      return {
+        loading: false,
+        error: action.payload,
+      };
+    case GET_FIELD_RESET:
       return {};
     default:
       return state;

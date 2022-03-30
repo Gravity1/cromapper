@@ -6,7 +6,7 @@ import DatePicker from "@mui/lab/DatePicker";
 import { useFormikContext } from "formik";
 import { FormHelperText } from "@mui/material";
 
-export default function CustomDatePicker({ label }) {
+export default function CustomDatePicker({ label, ...otherProps }) {
   const [value, setValue] = React.useState(null);
   const { setFieldTouched, errors, touched, setFieldValue, values } =
     useFormikContext();
@@ -14,6 +14,7 @@ export default function CustomDatePicker({ label }) {
   return (
     <LocalizationProvider dateAdapter={DateAdapter}>
       <DatePicker
+        {...otherProps}
         showTodayButton={false}
         label={label}
         onBlur={() => setFieldTouched(label, true)}

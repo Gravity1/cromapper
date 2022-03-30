@@ -10,6 +10,7 @@ import { lightTheme } from "./config/theme";
 import { Container, CssBaseline, Grid } from "@mui/material";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import FieldDateScreen from "./screens/FieldDateScreen";
 function App() {
   return (
     <Grid container>
@@ -23,6 +24,7 @@ function App() {
             <Route path="/recovery" element={<ForgotPass />}></Route>
             <Route path="/weather" element={<Weather />}></Route>
             <Route path="/home" element={<Home />}></Route>
+            <Route path="/data/:id" element={<FieldDateScreen />}></Route>
             <Route path="*" element={<Home />}></Route>
           </Routes>
         </BrowserRouter>

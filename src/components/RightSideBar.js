@@ -16,6 +16,7 @@ import {
   Modal,
   Typography,
   Popover,
+  Link,
 } from "@mui/material";
 import {
   CloudOutlined,
@@ -121,7 +122,7 @@ const RightSideBar = () => {
       style={{
         position: "absolute",
         zIndex: "1000",
-        top: 100,
+        top: 70,
         backgroundColor: palette.secondary.main,
         borderRadius: 10,
         display: "flex",
@@ -454,55 +455,61 @@ const RightSideBar = () => {
           <>
             {fields &&
               fields.map((field, index) => (
-                <ListItem button>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                    }}
-                  >
-                    <ListItemText
-                      primary={field.name}
-                      style={{ color: palette.primary.contrastText }}
-                    />
+                <Link href={`/data/${field._id}`} style={{
+                  textDecoration: "none",
+                }}>
+                  {" "}
+                  <ListItem button>
                     <div
                       style={{
                         display: "flex",
-                        flexDirection: "row",
-                        justifyContent: "space-evenly",
-                        p: 10,
+                        flexDirection: "column",
                       }}
                     >
-                      <Typography
-                        sx={{
-                          pr: 2,
+                      <ListItemText
+                        primary={field.name}
+                        style={{ color: palette.primary.contrastText }}
+                      />
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "row",
+                          justifyContent: "space-evenly",
+                          p: 10,
                         }}
-                        variant="body2"
-                        color="textSecondary"
                       >
-                      SowingDate  {moment(field.createdAt).format("MMMM Do YYYY")}
-                      </Typography>
-                      <Typography
-                        sx={{
-                          pr: 2,
-                        }}
-                        variant="body2"
-                        color="textSecondary"
-                      >
-                        {field.crop}
-                      </Typography>
-                      <Typography
-                        sx={{
-                          pr: 2,
-                        }}
-                        variant="body2"
-                        color="textSecondary"
-                      >
-                       {field.acres}acres
-                      </Typography>
+                        <Typography
+                          sx={{
+                            pr: 2,
+                          }}
+                          variant="body2"
+                          color="textSecondary"
+                        >
+                          SowingDate{" "}
+                          {moment(field.createdAt).format("MMMM Do YYYY")}
+                        </Typography>
+                        <Typography
+                          sx={{
+                            pr: 2,
+                          }}
+                          variant="body2"
+                          color="textSecondary"
+                        >
+                          {field.crop}
+                        </Typography>
+                        <Typography
+                          sx={{
+                            pr: 2,
+                          }}
+                          variant="body2"
+                          color="textSecondary"
+                        >
+                          {field.acres}acres
+                        </Typography>
+                      </div>
                     </div>
-                  </div>
-                </ListItem>
+                  </ListItem>
+                </Link>
               ))}
           </>
         </Box>

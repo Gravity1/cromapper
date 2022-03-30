@@ -14,6 +14,8 @@ import MenuItem from "@mui/material/MenuItem";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../actions/userActions";
 import { useNavigate } from "react-router-dom";
+import mylog from "../images/logo.png";
+import { Link } from "@mui/material";
 
 const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -50,6 +52,26 @@ const Navbar = () => {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
+          <Link href="/home">
+            <img
+              src={mylog}
+              style={{
+                width: 60,
+                height: 60,
+                objectFit: "contain",
+              }}
+            />
+          </Link>
+          <Typography
+            sx={{
+              textTransform: "uppercase",
+              flexGrow: 1,
+              ml: 10,
+            }}
+            variant="h6"
+          >
+            Welcome to Cromap App
+          </Typography>
           <div
             style={{
               position: "absolute",
@@ -91,7 +113,6 @@ const Navbar = () => {
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}
                 >
-                 
                   <MenuItem onClick={handleCloseUserMenu}>
                     <Typography textAlign="center">Account</Typography>
                   </MenuItem>

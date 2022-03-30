@@ -4,6 +4,7 @@ import thunk from "redux-thunk";
 import {
   fieldCreateReducer,
   fieldDeleteReducer,
+  fieldGetReducer,
   fieldsGetReducer,
   fieldUpdateReducer,
 } from "./reducers/fieldReducers";
@@ -18,7 +19,7 @@ const reducer = combineReducers({
   fileSave: fileSaveReducer,
   fieldCreate: fieldCreateReducer,
   fieldsGet: fieldsGetReducer,
-  fieldGet: fieldsGetReducer,
+  fieldGet: fieldGetReducer,
   fieldDelete: fieldDeleteReducer,
   fieldUpdate: fieldUpdateReducer,
   userLogin: userLoginReducer,
