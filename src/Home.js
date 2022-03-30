@@ -1,24 +1,21 @@
 import React from "react";
 import MapBoxGl from "./MapBoxGl";
-import Title from "./Title";
-import "./Navbar.css";
-import MenuIcon from "@mui/icons-material/Menu";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-// very problemattic with the dependency tree
-// import SearchBar from "material-ui-search-bar";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import Login from "./Login";
-import SignUp from "./SignUp";
 import RightSideBar from "./components/RightSideBar";
+import Navbar from "./components/NavBar";
+import { Container } from "@mui/material";
 
 function Home() {
   return (
-    <div className="App">
+    <>
+    
       <Navbar />
       <RightSideBar />
-      <div className="MapView">
-        {/* <Title /> */}
+    
         <MapBoxGl />
+
+      
+    </>
+
         <div className="nav_div"></div>
         <div className="not_nav_div"></div>
       </div>
@@ -50,6 +47,7 @@ function Navbar() {
         </Routes>
       </div>
     </div>
+
   );
 }
 

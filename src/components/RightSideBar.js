@@ -15,6 +15,8 @@ import {
   Grid,
   Modal,
   Typography,
+  Popover,
+  Link,
 } from "@mui/material";
 import {
   CloudOutlined,
@@ -32,6 +34,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { saveFile } from "../actions/fileActions";
 import ModalVideo from "react-modal-video";
 import "react-modal-video/scss/modal-video.scss";
+import { getFields } from "../actions/fieldActions";
+import moment from "moment";
 
 const RightSideBar = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -65,6 +69,7 @@ const RightSideBar = () => {
   const [openManuals, setOpenManuals] = React.useState(false);
   const handleOpenManuals = () => setOpenManuals(true);
   const handleCloseManuals = () => setOpenManuals(false);
+  const [openFelds, setOpenFelds] = React.useState(false);
 
   const [ismanualModalVideoOpen, setmanualModalVideoOpen] =
     React.useState(false);
@@ -89,21 +94,42 @@ const RightSideBar = () => {
   useEffect(() => {
     if (filesContent) {
       dispatch(saveFile(filesContent));
+      dispatch(getFields());
     }
-  }, [filesContent]);
+  }, [filesContent, dispatch]);
+
+  const [ep, setEp] = React.useState(null);
+
+  //popper functionality
+
+  const handleClickEp = (event) => {
+    setEp(event.currentTarget);
+  };
+
+  const handleCloseEp = () => {
+    setEp(null);
+  };
+
+  const epOpen = Boolean(ep);
+
+  const id = epOpen ? "simple-popover" : undefined;
+
+  const fieldsGet = useSelector((state) => state.fieldsGet);
+  const { fields, loading: loadingField, error } = fieldsGet;
 
   return (
     <div
       style={{
         position: "absolute",
         zIndex: "1000",
-        top: 100,
+        top: 70,
         backgroundColor: palette.secondary.main,
         borderRadius: 10,
         display: "flex",
-        justifyContent: "space-evenly",
-        height: "80vh",
+        justifyContent: "space-between",
+        height: "fit-content",
         opacity: 0.8,
+        padding: 10,
       }}
     >
       <div>
@@ -133,8 +159,10 @@ const RightSideBar = () => {
             >
               <ListItem button>
                 <ListItemText
+                  aria-describedby={id}
                   primary="View my fields"
                   color={palette.primary.main}
+                  onClick={handleClickEp}
                 />
               </ListItem>
               <ListItem onClick={() => openFileSelector()} button>
@@ -292,7 +320,10 @@ const RightSideBar = () => {
                 }}
                 button
               >
-                <ListItemText primary="Dairy cattle" color={palette.primary.main} />
+                <ListItemText
+                  primary="Dairy cattle"
+                  color={palette.primary.main}
+                />
               </ListItem>
             </List>
           </Box>
@@ -312,7 +343,7 @@ const RightSideBar = () => {
         sx={{
           flexDirection: "column",
           width: "fitContent",
-          pl: 5,
+          height: "fitContent",
         }}
       >
         <ListItem button sx={{}} onClick={handleOpen}>
@@ -402,6 +433,87 @@ const RightSideBar = () => {
           />
         </ListItem>
       </List>
+      <Popover
+        id={id}
+        open={epOpen}
+        anchorEl={ep}
+        onClose={handleCloseEp}
+        anchorOrigin={{
+          vertical: "right",
+          horizontal: "right",
+        }}
+      >
+        <Box
+          sx={{
+            backgroundColor: palette.secondary.main,
+            width: "fitContent",
+            height: "fitContent",
+            borderRadius: "2px",
+            p: 1,
+          }}
+        >
+          <>
+            {fields &&
+              fields.map((field, index) => (
+                <Link href={`/data/${field._id}`} style={{
+                  textDecoration: "none",
+                }}>
+                  {" "}
+                  <ListItem button>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                      }}
+                    >
+                      <ListItemText
+                        primary={field.name}
+                        style={{ color: palette.primary.contrastText }}
+                      />
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "row",
+                          justifyContent: "space-evenly",
+                          p: 10,
+                        }}
+                      >
+                        <Typography
+                          sx={{
+                            pr: 2,
+                          }}
+                          variant="body2"
+                          color="textSecondary"
+                        >
+                          SowingDate{" "}
+                          {moment(field.createdAt).format("MMMM Do YYYY")}
+                        </Typography>
+                        <Typography
+                          sx={{
+                            pr: 2,
+                          }}
+                          variant="body2"
+                          color="textSecondary"
+                        >
+                          {field.crop}
+                        </Typography>
+                        <Typography
+                          sx={{
+                            pr: 2,
+                          }}
+                          variant="body2"
+                          color="textSecondary"
+                        >
+                          {field.acres}acres
+                        </Typography>
+                      </div>
+                    </div>
+                  </ListItem>
+                </Link>
+              ))}
+          </>
+        </Box>
+      </Popover>
     </div>
   );
 };
