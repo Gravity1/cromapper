@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import ReactMapboxGl, {
   Feature,
+
   Image,
   Layer,
   RotationControl,
@@ -8,12 +9,20 @@ import ReactMapboxGl, {
   ZoomControl,
 } from "react-mapbox-gl";
 import * as geolib from "geolib";
+
+  Layer,
+  ScaleControl,
+  ZoomControl,
+  DrawControl,
+} from "react-mapbox-gl";
+
 import "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css";
 import { useTheme } from "@emotion/react";
 import { useDispatch, useSelector } from "react-redux";
 import "./MapBoxGl.css";
 import turf from "@turf/area";
 import Box from "@mui/material/Box";
+
 import DrawControl from "react-mapbox-gl-draw";
 import * as Yup from "yup";
 import useLocation from "./hooks/useLocation";
@@ -29,6 +38,10 @@ import { CREATE_FIELD_RESET } from "./constants/fieldConstants";
 import { toast } from "react-toastify";
 import { createField, getFields } from "./actions/fieldActions";
 import { GeolocateControl } from "react-map-gl";
+=======
+import Modal from "@mui/material/Modal";
+import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
+
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
@@ -36,6 +49,7 @@ const validationSchema = Yup.object().shape({
   sowingDate: Yup.string().required("Sowing date is required"),
   harvestDate: Yup.string().required("Harvest date is required"),
 });
+
 
 const Map = ReactMapboxGl({
   accessToken:
@@ -133,12 +147,27 @@ function MapBoxGl() {
   return (
     <>
       <Container fluid>
+
+mapboxgl.accessToken =
+  "pk.eyJ1IjoiZ3Jhdml0eTEiLCJhIjoiY2t6YTRmbXBwMDA3YzJ2cWZrZzljbDBnNCJ9.IbOTaJUNv9gVCkjmgdjkrQ";
+
+function MapBoxGl() {
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const [acre, setAcre] = React.useState(0);
+
+  function BasicModal() {
+    return (
+      <div>
+
         <Modal
           open={open}
           // onClose={handleClose}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
+
           <Box
             sx={{
               position: "absolute",
@@ -215,6 +244,31 @@ function MapBoxGl() {
                 </Button>
               </Grid>
             </>
+
+          <Box sx={style}>
+            <form>
+              <label>
+                Field name:
+                <input type="text" />
+              </label>
+              <label>
+                Crop planted:
+                <input type="text" />
+              </label>
+              <label>
+                Sowing date:
+                <input type="date" />
+              </label>
+              <label>
+                Harvest date:
+                <input type="date" />
+              </label>
+              <label>
+                Area:
+                <input type="number" value={acre} />
+              </label>
+            </form>
+
           </Box>
         </Modal>
       </Container>
@@ -236,6 +290,7 @@ function MapBoxGl() {
           id="mike"
           url="https://earthengine.googleapis.com/v1alpha/projects/earthengine-legacy/thumbnails/d9fb3a65fe42841d18ae06f945f4e50c-17ac6cfd89ec15941cddb68b3efb8169:getPixels"
         />
+
 
         <div>
           <ZoomControl
@@ -404,6 +459,87 @@ function MapBoxGl() {
 // }
 
 // // my end
+
+
+  useEffect(() => {
+    if (map.current) return; // initialize map only once
+    map.current = new mapboxgl.Map({
+      container: mapContainer.current,
+      style: "mapbox://styles/gravity1/ckza7g0v0001q14p9jw3idvkg",
+      center: [lng, lat],
+      zoom: zoom,
+      attributionControl: false,
+      logoPosition: "bottom-right",
+    });
+
+    map.current.addControl(
+      new MapboxGeocoder({
+        accessToken: mapboxgl.accessToken,
+        mapboxgl: mapboxgl,
+      }),
+      "bottom-right"
+    );
+
+    map.current.addControl(draw, "bottom-right");
+    map.current.addControl(
+      new mapboxgl.GeolocateControl({
+        positionOptions: {
+          enableHighAccuracy: true,
+        },
+        // When active the map will receive updates to the device's location as it changes.
+        trackUserLocation: true,
+        // Draw an arrow next to the location dot to indicate which direction the device is heading.
+        showUserHeading: true,
+      }),
+      "bottom-right"
+    );
+
+    map.current.on("draw.create", updateArea);
+    map.current.on("draw.delete", updateArea);
+    map.current.on("draw.update", updateArea);
+  });
+
+  function updateArea(e) {
+    console.log("update area starting...");
+    console.log(e.type);
+    if (e.type === "draw.create") setOpen(true);
+
+    const data = draw.getAll();
+    console.log(data);
+    const answer = document.getElementById("calculated-area");
+
+    if (data.features.length > 0) {
+      const area = turf(data);
+      // Restrict the area to 2 decimal points.
+      const rounded_area = Math.round(area * 100) / 100;
+      // convert to acres
+      setAcre(rounded_area / 4046.86);
+      answer.innerHTML = `<p><strong>${acre}</strong></p><p>acres</p>`;
+    } else {
+      answer.innerHTML = "";
+      if (e.type !== "draw.delete") alert("Click the map to draw a polygon.");
+    }
+  }
+  return (
+    <div className="MapBox_div">
+      <div ref={mapContainer} className="map-container" id="map-container-id" style={
+        {
+          
+        }
+      }/>
+      <div className="calculation-box" style={{
+          left:"50%"
+        }}>
+        <BasicModal />
+        <p>Click the map to draw a polygon.</p>
+        <div id="calculated-area"></div>
+      </div>
+    </div>
+  );
+}
+
+// my end
+
 
 export default MapBoxGl;
 

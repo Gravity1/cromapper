@@ -12,8 +12,42 @@ function Home() {
       <RightSideBar />
     
         <MapBoxGl />
+
       
     </>
+
+        <div className="nav_div"></div>
+        <div className="not_nav_div"></div>
+      </div>
+    </div>
+  );
+}
+
+function Navbar() {
+  return (
+    <div className="Navbar">
+      <div className="leftside_nav">
+        <div className="navbar_icon_div">
+          <MenuIcon fontSize="large" />
+        </div>
+      </div>
+      <div className="rightside_nav">
+        <ul>
+          <li></li>
+          <li>
+            <Link to="/login">Log out</Link>
+          </li>
+          <li>
+            <AccountCircleIcon />
+          </li>
+        </ul>
+        <Routes>
+          <Route path="/login" element={<Login />}></Route>
+          <Route path="/signup" element={<SignUp />}></Route>
+        </Routes>
+      </div>
+    </div>
+
   );
 }
 
