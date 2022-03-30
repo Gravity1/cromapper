@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import ReactMapboxGl, {
   Feature,
+  Image,
   Layer,
   RotationControl,
   ScaleControl,
@@ -227,6 +228,13 @@ function MapBoxGl() {
           [36.7065, 0.6115]
         }
       >
+        <Image 
+        id="mike"
+        url="https://earthengine.googleapis.com/v1alpha/projects/earthengine-legacy/thumbnails/d9fb3a65fe42841d18ae06f945f4e50c-17ac6cfd89ec15941cddb68b3efb8169:getPixels"
+
+        
+        />
+        
         <div>
           <ZoomControl
             style={{
