@@ -1,0 +1,1 @@
+export const url = "http://10.96.221.40:5000/api/v1";

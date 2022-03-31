@@ -1,148 +1,155 @@
-import React from 'react'
-import './SignUp.css';
+import React, { useEffect } from "react";
+import Container from "@mui/material/Container";
+import { useTheme } from "@emotion/react";
+import Grid from "@mui/material/Grid";
 import {
-    BrowserRouter as
-        Router,
-    Routes,
-    Route,
-    Link
-} from "react-router-dom";
+    Alert,
+  Backdrop,
+  Card,
+  CardContent,
+  CircularProgress,
+  FormHelperText,
+  Link,
+  Typography,
+} from "@mui/material";
+import * as Yup from "yup";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { register } from "./actions/userActions";
+import InputComponent from "./components/form/InputComponent";
+import SubmitButton from "./components/form/SubmitButton";
+import Form from "./components/form/Form";
+import { CustomDropDown } from "./components/form/CustomDropDown";
+import { roles } from "./data/data";
 
+const validationSchema = Yup.object().shape({
+  name: Yup.string().required("Name is required").label("Name ").min(4),
+  email: Yup.string().required("Email is requored").label("Email ").email(),
+  password: Yup.string()
+    .required("Password is required")
+    .label("Password")
+    .min(4),
+  role: Yup.string().required("Role is required").label("Role"),
+  phoneNumber: Yup.string()
+    .required("Phone number is required")
+    .matches(/^[0-9]{10}$/, "Phone number is not valid"),
+});
+const SignUp = () => {
+  const { palette } = useTheme();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-function SignUp() {
+  const userRegister = useSelector((state) => state.userRegister);
+  const { loading, success, error, userInfo } = userRegister;
 
-    function SetUserType() {
+  if (userInfo) {
+    navigate("/home", { replace: true });
+    toast(`Logged in as ${userInfo.name}`);
+  }
 
-        alert("Surprise motherfucker!!!!");
+  useEffect(() => {
+    if (success) {
+      navigate("/home", { replace: true });
     }
+  }, [userInfo, navigate, success, dispatch]);
 
-    return (
+  const handleSubmit = async ({ name, email, password, role, phoneNumber }) => {
+    dispatch(register(name, email, password, role, phoneNumber));
+  };
 
-        <div className="LoginApp">
-            <div className="filter">
+  return (
+    <div
+      style={{
+        backgroundColor: palette.primary.main,
+        height: "100vh",
+        width: "100vw",
+        display: "flex",
+      }}
+    >
+      <Container maxWidth="sm">
+        {loading && (
+          <Backdrop
+            sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+            open={true}
+          >
+            <CircularProgress color="inherit" />
+          </Backdrop>
+        )}
 
-                <div>
-                    <nav>
-                        <div id='header1SignUp'><p>CROMAP</p></div>
-                        <div id='header2SignUp'><p>Improving Farm Efficiencies</p></div>
-                        {/* <a href="/html/">HTML</a> | */}
-                    </nav>
-
+        <Grid
+          container
+          spacing={2}
+          sx={{
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100vh",
+          }}
+        >
+          <Grid item xs={12} md={12} m={"auto"}>
+            <Card
+              variant=""
+              sx={{
+                backgroundColor: palette.primary.contrastText,
+              }}
+            >
+              <CardContent>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  {error && (
+                    <Alert severity="error" color="error">
+                      {error}{" "}
+                    </Alert>
+                  )}
+                  <Typography
+                    variant="h5"
+                    component="h2"
+                    style={{
+                      color: palette.primary.main,
+                      fontWeight: "bold",
+                      fontSize: "30px",
+                    }}
+                  >
+                    Sign up for an account
+                  </Typography>
+                  <Form
+                    onSubmit={handleSubmit}
+                    initialValues={{
+                      name: "",
+                      email: "",
+                      password: "",
+                      role: "",
+                      phoneNumber: "",
+                    }}
+                    validationSchema={validationSchema}
+                  >
+                    <InputComponent label="name" type="text" />
+                    <InputComponent label="email" type="email" />
+                    <InputComponent label="password" type="password" />
+                    <CustomDropDown item={roles} name="role" />
+                    <InputComponent label="phoneNumber" type="number" />
+                    <SubmitButton title={`Register`} />
+                  </Form>
+                  <Typography variant="body1">
+                    Already have an account?
+                    <Link href="/" color="primary">
+                      Sign In
+                    </Link>
+                  </Typography>
                 </div>
-                <div>
-                    <form>
-                        <div className="motherDivSignUp">
-                            <div
-                                className="heading"
-                                id='signUpHeaderId'
-                            ><h1>Create a new Account</h1></div>
-                            <div
-                                id='divId1'
-                            ><span>Already Registered? Log in <Link to='/login'>here</Link></span></div>
-                            <div id="motherSeparater">
-                                <div className="separator" style={{ marginBottom: "2em" }, { margintTop: "2em" }}>
-                                    <div className="separate">
-                                        <label htmlFor="fname">FIRST NAME</label><br />
-                                        <input type="fname" id="fname" name="fname" />
-                                    </div>
-                                    <div className="separate">
+              </CardContent>
+            </Card>
+          </Grid>
+        </Grid>
+      </Container>
+    </div>
+  );
+};
 
-                                        <label htmlFor="lname">LAST NAME</label><br />
-                                        <input type="lname" id="lname" name="lname" />
-                                    </div>
-                                </div>
-
-                                <div className="separator" style={{ marginBottom: "0em" }}>
-                                    <div className="separate">
-                                        <label htmlFor="email">ENTER VALID EMAIL</label><br />
-                                        <input type="email" id="email" name="email" />
-                                    </div>
-
-                                    <div className="separate">
-                                        <label htmlFor="password">CREATE PASSWORD</label><br />
-                                        <input type="password" id="password" name="password" />
-                                    </div>
-                                </div>
-
-                                <div className="separator">
-                                    <div className="separate">
-                                        <label>CONFIRM PASSWORD</label><br />
-                                        <input type="cpassword" id="cpassword" name="cpassword" />
-                                    </div>
-
-                                    <div className="separate">
-                                        <label>SELECT USER TYPE</label><br />
-                                        <select name="userType" id="userType">
-                                            <option value="farmer" selected>Farmer</option>
-                                            <option value="GExpert">GIS Expert</option>
-                                            <option value="PMaker">Policy Maker</option>
-                                        </select>
-                                    </div>
-
-                                </div>
-                                <div
-                                    className="separate"
-                                    id='TncDiv'
-                                >
-                                    <input
-                                        type="checkbox"
-                                        id="TnC"
-                                        name="TnC"
-                                        value="True"
-                                    />&nbsp;&nbsp;
-                                    <label>
-                                        I agree to the
-                                        <a>Terms and Conditions</a>,
-                                        <a> User Agreement </a>
-                                        and
-                                        <a> Privacy Policy</a>
-                                    </label>
-                                </div>
-                                <div
-                                    className="separate"
-                                    id='SignUpButtonDivId'
-                                    style={
-                                        { marginBottom: "1em" }
-                                    }>
-                                    <button
-                                        style={
-                                            { borderRadius: "0.8em" }
-                                        }
-                                        type="submit"
-                                        value="submit"
-                                        className="btn btn-light login_button">
-                                        Sign Up
-                                    </button>
-                                </div>
-
-
-                                <div
-                                    id='orDiv'
-                                >
-                                    <span
-                                        id="or">
-                                        OR
-                                    </span>
-                                </div>
-                                <div
-                                    id='signUpPageContinueWithGoogleDivId'
-                                >
-                                    <button
-                                        id='login-with-google-btn-id'
-                                        className="login-with-google-btn "
-                                        type="" >
-                                        Continue with Google
-                                    </button>
-                                </div>
-                                <br />
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div >
-        </div >
-    )
-}
-
-
-export default SignUp
+export default SignUp;
