@@ -117,7 +117,7 @@ function MapBoxGl() {
         accessToken: mapboxgl.accessToken,
         mapboxgl: mapboxgl,
       }),
-      "bottom-right"
+      "top-right"
     );
 
     map.current.addControl(draw, "bottom-right");

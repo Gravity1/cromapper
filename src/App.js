@@ -7,6 +7,7 @@ import Weather from "./components/Weather";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import { ThemeProvider } from "@emotion/react";
 import { lightTheme } from "./config/theme";
+import Welcome from "./Welcome";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/signup" element={<SignUp />}></Route>
           <Route path="/recovery" element={<ForgotPass />}></Route>
           <Route path="/weather" element={<Weather />}></Route>
+          <Route path="/welcome" element={<Welcome />}></Route>
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
