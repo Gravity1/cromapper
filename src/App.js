@@ -11,6 +11,7 @@ import { Container, CssBaseline, Grid } from "@mui/material";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import FieldDateScreen from "./screens/FieldDateScreen";
+import Welcome from "./Welcome";
 function App() {
   return (
     <Grid container>
@@ -26,6 +27,7 @@ function App() {
             <Route path="/home" element={<Home />}></Route>
             <Route path="/data/:id" element={<FieldDateScreen />}></Route>
             <Route path="*" element={<Home />}></Route>
+            <Route path="/welcome" element={<Welcome />}></Route>
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
