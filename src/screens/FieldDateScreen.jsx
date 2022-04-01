@@ -52,9 +52,11 @@ const FieldDateScreen = () => {
         />
 
         <Layer type="image">
-          {field && <Feature coordinates={[field.area[0].geometry.coordinates]} />}
+          {field && (
+            <Feature coordinates={[field.area[0].geometry.coordinates]} />
+          )}
         </Layer>
-        <BottomComponent />
+        <BottomComponent field={field && field.area[0].geometry.coordinates[0]} />
       </MapComponent>
       ;
     </>

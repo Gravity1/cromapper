@@ -10,6 +10,10 @@ import {
 } from "./reducers/fieldReducers";
 import { fileSaveReducer } from "./reducers/fileReducers";
 import {
+  ndvil8CreateReducer,
+  ndvis2CreateReducer,
+} from "./reducers/geeReducers";
+import {
   userLoginReducer,
   userRegisterReducer,
   userUpdateReducer,
@@ -25,7 +29,8 @@ const reducer = combineReducers({
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
   userUpdate: userUpdateReducer,
-  // userDelete: userDeleteReducer,
+  ndvil8Create: ndvil8CreateReducer,
+  ndvis2Create: ndvis2CreateReducer,
 });
 const userInfoFromStorage = localStorage.getItem("userInfo")
   ? JSON.parse(localStorage.getItem("userInfo"))
