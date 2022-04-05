@@ -15,7 +15,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../actions/userActions";
 import { useNavigate } from "react-router-dom";
 import mylog from "../images/logo.png";
-import { Link } from "@mui/material";
+import { Link, Modal } from "@mui/material";
+import Form from "./form/Form";
+import InputComponent from "./form/InputComponent";
+import { CustomDropDown } from "./form/CustomDropDown";
+import { roles } from "./../data/data";
+import SubmitButton from "./form/SubmitButton";
+import EditIcon from '@mui/icons-material/Edit';
+
+
+
+
+
 
 const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -48,8 +59,89 @@ const Navbar = () => {
     setAnchorElUser(null);
   };
 
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+
+  const handleAccountOpen = () => {
+    setAnchorElUser(null);
+  }
+
   return (
     <AppBar position="static">
+   
+   
+     <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box
+            sx={{
+              margin:"0 auto",
+              bgcolor: "rgb(139, 195, 74)",
+              width: "50%",
+              p: 1,
+              borderRadius: 2,
+              color: "white",
+              zIndex:999
+            }}
+          >
+          <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  {/* {error && (
+                    <Alert severity="error" color="error">
+                      {error}{" "}
+                    </Alert>
+                  )} */}
+                 
+                  <Form
+                    // onSubmit={handleSubmit}
+                    initialValues={{
+                      name: "",
+                      email: "",
+                      password: "",
+                      role: "",
+                      phoneNumber: "",
+                    }}
+                    // validationSchema={validationSchema}
+                  >
+                  <Button variant="contained">
+                  <EditIcon
+                  color="#827717"
+                  />
+                  </Button>
+                    <Typography variant="h4" style={{
+                      color:"#827717",
+                      fontWeight: "bold",
+                      fontSize: "30px"}}>
+                      Header Placeholder</Typography>
+                    <InputComponent label="name" type="text" />
+                    <InputComponent label="email" type="email" />
+                    <InputComponent label="password" type="password" />
+                    <CustomDropDown item={roles} name="role" />
+                    <InputComponent label="phoneNumber" type="number" />
+                    <SubmitButton title={`Submit`} />
+                  </Form>
+                  {/* <Typography variant="body1">
+                    Already have an account?
+                    <Link href="/" color="primary">
+                      Sign In
+                    </Link>
+                  </Typography> */}
+                </div>
+          </Box>
+        </Modal>
+
+
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Link href="/home">
@@ -113,7 +205,13 @@ const Navbar = () => {
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}
                 >
-                  <MenuItem onClick={handleCloseUserMenu}>
+                {/* change to new fx to show sumn */}
+                {/* Then show modal */}
+                {/* add elements from sign up */}
+                  <MenuItem onClick={
+                    handleAccountOpen,
+                    handleOpen
+                    }>
                     <Typography textAlign="center">Account</Typography>
                   </MenuItem>
                   <MenuItem onClick={handleLogout}>
